@@ -5,6 +5,7 @@ import (
 	"context"
 	"errors"
 	"net"
+	"os"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -270,6 +271,11 @@ func (c *Conn) Close() error {
 	})
 
 	return err
+}
+
+// LocalAddr implements net.UDPConn.File
+func (c *Conn) File() (f *os.File, err error) {
+	return c.listener.pConn.File()
 }
 
 // LocalAddr implements net.Conn.LocalAddr
